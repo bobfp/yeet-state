@@ -36,14 +36,16 @@ const ToDo = ({ toggleComplete, toDo }) => {
   );
 };
 
+const rootGetter = state => state;
+
+const itemSetter = transformer => index => list =>
+  list.map((item, i) => (i === index ? transformer(item) : item));
+
 const ToDoList = () => {
-  const [toDos, toggleComplete] = useYeet("todos", [
-    todos => todos,
-    index => todos =>
-      toDos.map((toDo, i) =>
-        i === index ? { ...toDo, complete: !toDo.complete } : toDo
-      )
-  ]);
+  const [toDos, setToDo] = useYeet("todos", [rootGetter, itemSetter]);
+
+  const transformComplete = item => ({ ...item, complete: !item.complete });
+  const toggleComplete = setToDo(transformComplete);
 
   return (
     <ul>
@@ -51,7 +53,7 @@ const ToDoList = () => {
         <ToDo
           key={i.toString()}
           toDo={toDo}
-          toggleComplete={() => toggleComplete(i)}
+          toggleComplete={toggleComplete(i)}
         />
       ))}
     </ul>

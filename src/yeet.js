@@ -39,7 +39,7 @@ export const useYeet = (atom, [getter, setter]) => {
   const [state, setState] = useState(store.getCurrent(atom));
   const yeetState = getter(state);
   const yeetSetState = val => {
-    store.publish(atom)(setter(val));
+    store.publish(atom)(setter);
   };
 
   useEffect(() => {
@@ -51,9 +51,7 @@ export const useYeet = (atom, [getter, setter]) => {
 
 export const useSetter = (atom, setter) => {
   const store = useContext(YeetContext);
-  const yeetSetState = val => {
-    store.publish(atom)(setter(val));
-  };
+  const yeetSetState = {};
   return yeetSetState;
 };
 
