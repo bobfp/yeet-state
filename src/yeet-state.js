@@ -18,7 +18,8 @@ export const createStore = initialValue => {
   };
 
   const publish = atom => transformer => {
-    store[atom] = transformer(store[atom]);
+    const newState = transformer(store[atom]);
+    store[atom] = newState;
     const cbIDs = Object.getOwnPropertySymbols(callbacks[atom]);
     cbIDs.forEach(cbID => {
       callbacks[atom][cbID](store[atom]);
