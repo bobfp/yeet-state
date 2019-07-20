@@ -1,19 +1,20 @@
 import React, { useState, useCallback } from "react";
 import ReactDOM from "react-dom";
+import { createStore } from "../../src/yeet-state.js";
 import {
-  createStore,
-  useYeet,
-  YeetContext,
+  useGetter,
   useSetter,
-  useGetter
-} from "../../src/yeet";
+  useYeet,
+  YeetContext
+} from "../../src/yeet-react.js";
 
 const ToDoInput = () => {
   const [text, setText] = useState("");
-  const addToDo = useSetter("todos", todo => todos => [...todos, todo]);
+  const addToDo = useSetter("todos")(concatSetter);
+  const handleText = useCallback(e => setText(e.target.value), []);
   const handleEnter = useCallback(e => {
     if (e.keyCode == 13) {
-      addToDo({ text: e.target.value, complete: false });
+      addToDo(newToDo(e.target.value));
       setText("");
     }
   }, []);
@@ -22,30 +23,23 @@ const ToDoInput = () => {
       type="text"
       value={text}
       onKeyDown={handleEnter}
-      onChange={e => setText(e.target.value)}
+      onChange={handleText}
     />
   );
 };
 
-const ToDo = ({ toggleComplete, toDo }) => {
+const ToDo = React.memo(({ toggleComplete, toDo }) => {
   const style = toDo.complete ? { textDecoration: "line-through" } : null;
   return (
     <li style={style} onClick={toggleComplete}>
       {toDo.text}
     </li>
   );
-};
-
-const rootGetter = state => state;
-
-const itemSetter = transformer => index => list =>
-  list.map((item, i) => (i === index ? transformer(item) : item));
+});
 
 const ToDoList = () => {
-  const [toDos, setToDo] = useYeet("todos", [rootGetter, itemSetter]);
-
-  const transformComplete = item => ({ ...item, complete: !item.complete });
-  const toggleComplete = setToDo(transformComplete);
+  const [toDos, updateToDoAtIndex] = useYeet("todos")(arrayLens);
+  const toggleComplete = i => () => updateToDoAtIndex(transformComplete)(i);
 
   return (
     <ul>
@@ -60,9 +54,19 @@ const ToDoList = () => {
   );
 };
 
+const rootGetter = state => state;
+const rootSetter = (newState, _) => newState;
+const concatSetter = (item, items) => [...items, item];
+const itemSetter = (transformer, index, items) =>
+  items.map((item, i) => (i === index ? transformer(item) : item));
+const arrayLens = [rootGetter, itemSetter];
+
+const transformComplete = item => ({ ...item, complete: !item.complete });
+const newToDo = text => ({ text, complete: false });
+const todos = [{ text: "Item 1", complete: false }];
+const filter = "SHOW_ALL";
+
 const App = () => {
-  const todos = [{ text: "Item 1", complete: false }];
-  const filter = "SHOW_ALL";
   const initValue = { todos, filter };
   const store = createStore(initValue);
   return (
