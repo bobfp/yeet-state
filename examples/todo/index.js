@@ -39,7 +39,7 @@ const ToDo = React.memo(({ toggleComplete, toDo }) => {
 
 const ToDoList = () => {
   const [toDos, updateToDoAtIndex] = useYeet("todos")(arrayLens);
-  const toggleComplete = i => () => updateToDoAtIndex(transformComplete)(i);
+  const toggleComplete = i => () => updateToDoAtIndex(transformComplete, i);
 
   return (
     <ul>

@@ -27,7 +27,7 @@ describe("useSetter", () => {
     const setState = useSetter("a")(
       (number, newState, oldState) => newState + number
     );
-    setState(1)(2);
+    setState(1, 2);
     expect(useContext.mock.calls[0][0]).toEqual(YeetContext);
     expect(store.getAtom("a")).toBe(3);
   });
