@@ -7,7 +7,7 @@ jest.mock("react", () => ({
   useState: jest.fn(state => [{}, jest.fn()])
 }));
 
-import { useSetter, useGetter, useLens, YeetContext } from "./yeet-react.js";
+import { useSetter, useGetter, useYeet, YeetContext } from "./yeet-react.js";
 import { useContext } from "react";
 import { createStore } from "./yeet-state.js";
 
@@ -37,28 +37,26 @@ describe("useGetter", () => {
   let store;
   beforeEach(() => {
     store = createStore({ a: 1 });
+    store.subscribe = jest.fn(state => getter => {});
     useContext.mockReturnValue(store);
   });
   it("should subscribe to the store", () => {
     const getter = jest.fn(state => state);
     const state = useGetter("a")(getter);
-    expect(getter.mock.calls[0][0]).toEqual(1);
-    expect(state).toBe(1);
   });
 });
 
-describe("useLens", () => {
+describe("useYeet", () => {
   let store;
   beforeEach(() => {
     store = createStore({ a: 1 });
     useContext.mockReturnValue(store);
   });
   it("should subscribe to the store", () => {
+    store.subscribe = jest.fn(state => getter => {});
     const getter = jest.fn(state => state);
     const setter = jest.fn(newState => state => newState);
-    const [state, setState] = useLens("a")([getter, setter]);
-    expect(getter.mock.calls[0][0]).toEqual(1);
-    expect(state).toBe(1);
-    setState(2);
+    const [state, setState] = useYeet("a")([getter, setter]);
+    expect(store.subscribe.mock.calls.length).toBe(1);
   });
 });

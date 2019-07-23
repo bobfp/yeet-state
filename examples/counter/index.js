@@ -1,32 +1,25 @@
 import React, { useState, useCallback } from "react";
 import ReactDOM from "react-dom";
+import { createStore } from "../../src/yeet-state";
 import {
-  createStore,
-  useYeet,
   YeetContext,
+  useGetter,
   useSetter,
-  useGetter
-} from "../../src/yeet";
-
-const counterLens = [
-  state => state.counter,
-  counter => state => ({ ...state, counter })
-];
+  useYeet
+} from "../../src/yeet-react";
+import { rootGetter, rootSetter, rootLens } from "../../src/yeet-lens";
 
 const CounterDisplay = () => {
-  const counter = useGetter("root", counterLens[0]);
+  const counter = useGetter("counter")(rootGetter);
   return <span>{counter}</span>;
 };
 
 const Counter = () => {
-  const yeetCounter = useSetter("root", val => state => ({
-    ...state,
-    counter: state.counter + val
-  }));
+  const yeetCounter = useSetter("counter")(rootSetter);
 
   const handleUpdateCounter = useCallback(
     val => () => {
-      yeetCounter(val);
+      yeetCounter(state => state + val);
     },
     []
   );
@@ -39,7 +32,7 @@ const Counter = () => {
 };
 
 const CounterInput = () => {
-  const [counter, setCounter] = useYeet("root", counterLens);
+  const [counter, setCounter] = useYeet("counter")(rootLens);
   return (
     <input
       type="text"
@@ -50,8 +43,8 @@ const CounterInput = () => {
 };
 
 const App = () => {
-  const root = { counter: 0 };
-  const initValue = { root };
+  const counter = 0;
+  const initValue = { counter };
   const store = createStore(initValue);
   return (
     <YeetContext.Provider value={store}>
