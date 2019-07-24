@@ -9,15 +9,16 @@ export const rootSetter = arg => state => {
 export const rootLens = [rootGetter, rootSetter];
 
 // ARRAY
-export const arrayGetter = i => state => rootGetter(state[i]);
-export const arraySetter = (i, arg) => state =>
-  state.map((item, index) => {
+export const indexGetter = i => state => rootGetter(state[i]);
+export const indexSetter = (i, arg) => state => {
+  return state.map((item, index) => {
     if (index === i) {
       return rootSetter(arg)(item);
     }
     return item;
   });
-export const arrayLens = [arrayGetter, arraySetter];
+};
+export const indexLens = [indexGetter, indexSetter];
 
 // OBJECT
 export const keyGetter = key => state => rootGetter(state[key]);
@@ -26,8 +27,3 @@ export const keySetter = (key, arg) => state => ({
   [key]: rootSetter(arg)(state[key])
 });
 export const keyLens = [keyGetter, keySetter];
-
-// COMPLEX
-export const composeGetter = (...args) => state => {
-  args.reverse();
-};

@@ -1,5 +1,5 @@
 {
-  "name": "@bobfp/yeet",
+  "name": "@bobfp/yeet-state",
   "version": "1.0.0",
   "main": "src/yeet.js",
   "license": "MIT",
