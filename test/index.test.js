@@ -1,4 +1,4 @@
-import { createStore } from "./yeet-state.js";
+import { createStore } from "../src/index.js";
 
 describe("store", () => {
   it("should return value when getAtom is called", () => {
