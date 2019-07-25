@@ -30,9 +30,9 @@ You will probably want to use the react bindings to interact with a yeet store, 
 import {createStore} from 'yeet-state';
 
 const user = {
-	name: 'Bob', 
-	type: 'Meat Popsicle',
-    age: 32
+  name: 'Bob', 
+  type: 'Meat Popsicle',
+  age: 32
 }
 
 const store = createStore({user});
