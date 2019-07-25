@@ -26,6 +26,9 @@ Yeet is designed for these use cases -- to fill in the gaps in applications that
 
 You will probably want to use the react bindings to interact with a yeet store, but here is a quick example of the low-level API
 
+`yarn add @bobfp/yeet-state`
+`npm install @bobfp/yeet-state --save`
+
 ```js
 import {createStore} from 'yeet-state';
 
