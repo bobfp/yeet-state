@@ -10,7 +10,6 @@ It is also:
 
  * Easy To Learn
 
-   
 
 ## Why use Yeet?
 
@@ -24,11 +23,9 @@ Yeet is designed for these use cases -- to fill in the gaps in applications that
 
 ## Using Yeet
 
-You will probably want to use the react bindings to interact with a yeet store, but here is a quick example of the low-level API
-
 `yarn add @bobfp/yeet-state`
 
-`npm install @bobfp/yeet-state --save`
+You will probably want to use the react bindings to interact with a yeet store, but here is a quick example of the low-level API
 
 ```js
 import {createStore} from 'yeet-state';
