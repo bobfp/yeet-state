@@ -11,6 +11,7 @@
   "compile:umd": "better-npm-run compile:umd",
   "compile:es": "babel -d es/ src/",
   "compile": "npm run compile:commonjs && npm run compile:umd && npm run compile:umdmin && npm run compile:es",
+	"prepublish": "npm run compile",
   "test": "jest"
  },
  "dependencies": {},
