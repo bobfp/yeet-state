@@ -7,7 +7,13 @@ export const createStore = initialValue => {
     }),
     {}
   );
+
   const getAtom = atom => store[atom];
+  const _setAtom = atom => transformer => {
+    const newState = transformer(store[atom]);
+    store[atom] = newState;
+    return newState;
+  };
 
   const subscribe = atom => cb => {
     const cbID = Symbol(atom);
@@ -18,11 +24,11 @@ export const createStore = initialValue => {
   };
 
   const publish = atom => transformer => {
-    const newState = transformer(store[atom]);
-    store[atom] = newState;
+    const newState = _setAtom(atom)(transformer);
+
     const cbIDs = Object.getOwnPropertySymbols(callbacks[atom]);
     cbIDs.forEach(cbID => {
-      callbacks[atom][cbID](store[atom]);
+      callbacks[atom][cbID](newState);
     });
   };
 
