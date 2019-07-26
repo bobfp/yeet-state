@@ -10,13 +10,12 @@ It is also:
 
  * Easy To Learn
 
-   
 
 ## Why use Yeet?
 
-Redux is a fantastic library, but it's ideal for every application. The amount of boilerplate makes smaller application tedious to develop. 
+Redux is a fantastic library, but it isn't ideal for every application. The amount of boilerplate makes smaller application tedious to develop.
 
-With the advent of the React Hooks API, larger apps are starting to move away from a "pure global state" model to a more hybrid nuanced approach. In these applications, developers might find redux to be overkill.
+With the advent of the React Hooks API, larger apps are starting to move away from a "pure global state" model to a more hybrid, nuanced approach where developers might find redux to be overkill.
 
 Yeet is designed for these use cases -- to fill in the gaps in applications that strive for a happy medium between pure component state and pure global state.  
 
@@ -30,10 +29,9 @@ Likewise, when the store is written to, the function is only applied to the stat
 
 ## Using Yeet
 
-You will probably want to use the [React Bindings](https://github.com/bobfp/yeet-react) to interact with a yeet store, but here is a quick example of the low-level API
-
 `yarn add @bobfp/yeet-state`
-`npm install @bobfp/yeet-state --save`
+
+You will probably want to use the [React Bindings](https://github.com/bobfp/yeet-react) to interact with a yeet store, but here is a quick example of the low-level API
 
 ```js
 import {createStore} from 'yeet-state';
