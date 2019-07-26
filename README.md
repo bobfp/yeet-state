@@ -20,11 +20,17 @@ With the advent of the React Hooks API, larger apps are starting to move away fr
 
 Yeet is designed for these use cases -- to fill in the gaps in applications that strive for a happy medium between pure component state and pure global state.  
 
+## Basic Concepts
 
+Yeet is based around creating functions that read from a global store, and write to the global store.
+
+In order to improve performance, and partition state data, the store is composed of one or more "atoms", which are just simple JavaScript objects. When a subscription is created, it's not to the entire store, but to a specific atom.
+
+Likewise, when the store is written to, the function is only applied to the state inside the specified atom.
 
 ## Using Yeet
 
-You will probably want to use the react bindings to interact with a yeet store, but here is a quick example of the low-level API
+You will probably want to use the [React Bindings](https://github.com/bobfp/yeet-react) to interact with a yeet store, but here is a quick example of the low-level API
 
 `yarn add @bobfp/yeet-state`
 `npm install @bobfp/yeet-state --save`
@@ -38,7 +44,11 @@ const user = {
   age: 32
 }
 
-const store = createStore({user});
+const counter = {value: 0}
+
+// createStore returns a store, with atoms corresponding 
+// to the keys of the supplied object.
+const store = createStore({user, counter});
 
 console.log(store.getAtom('user').age)
 // 32
